@@ -16,24 +16,7 @@ function Dashboard() {
 
 
 
- const sendData = async () => {
-   const response = await fetch("http://localhost:5000/test", {
-     method: "POST",
-
-     headers: {
-       "Content-Type": "application/json",
-     },
-
-     body: JSON.stringify({
-       name: "Mansaa",
-       habit: "Reading",
-     }),
-   });
-
-   const data = await response.json();
-
-   console.log(data);
- }; 
+ 
 
 
  const getAISuggestion = async () => {
@@ -139,50 +122,148 @@ function Dashboard() {
   return (
     <>
       <div
-        className="container mt-5"
+        className="container-fluid py-5"
         style={{
-          backgroundColor: darkMode ? "#121212" : "#ffffff",
-          color: darkMode ? "#ffffff" : "#000000",
           minHeight: "100vh",
-          padding: "20px",
+          background: darkMode
+            ? "linear-gradient(to bottom right, #1f1b2e, #2b223d)"
+            : "linear-gradient(to bottom right, #f9f7ff, #e8f0ff)",
+
+          color: darkMode ? "#f5f5f5" : "#333",
+          transition: "all 0.3s ease",
         }}
       >
         <div
-          className="card p-4 shadow"
+          className="card border-0 shadow-lg p-4 mx-auto"
           style={{
-            backgroundColor: darkMode ? "#1e1e1e" : "#ffffff",
-            color: darkMode ? "#ffffff" : "#000000",
+            backgroundColor: darkMode
+              ? "rgba(35, 30, 55, 0.95)"
+              : "rgba(255,255,255,0.85)",
+
+            backdropFilter: "blur(10px)",
+
+            color: darkMode ? "#f5f5f5" : "#333",
+
+            borderRadius: "28px",
+
+            maxWidth: "850px",
+
+            transition: "all 0.3s ease",
           }}
         >
-          <button onClick={getAISuggestion}>Get AI Suggestion 🤖</button>
-          {aiSuggestion && (
-            <div className="alert alert-info text-center">{aiSuggestion}</div>
-          )}
+          <div className="d-flex justify-content-end gap-3 mb-4">
+            <button
+              onClick={getAISuggestion}
+              style={{
+                border: "none",
+                padding: "10px 18px",
+                borderRadius: "14px",
+                background: darkMode ? "#3b315c" : "#efe7ff",
 
-          <button
-            className="btn btn-secondary mb-3"
-            onClick={() => setDarkMode(!darkMode)}
+                color: darkMode ? "#f3eaff" : "#6b5ca5",
+
+                fontWeight: "600",
+
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+
+                transition: "0.3s",
+              }}
+            >
+              🤖 AI Suggestion
+            </button>
+            {aiSuggestion && (
+              <div className="alert alert-info text-center">{aiSuggestion}</div>
+            )}
+
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              style={{
+                border: "none",
+                padding: "10px 18px",
+                borderRadius: "14px",
+
+                background: darkMode ? "#2d2645" : "#ffe9f3",
+
+                color: darkMode ? "#ffd6ea" : "#c45c8b",
+
+                fontWeight: "600",
+
+                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+
+                transition: "0.3s",
+              }}
+            >
+              {darkMode ? "☀️ Light" : "🌙 Dark"}
+            </button>
+          </div>
+          <h2
+            className="text-center mb-3 fw-bold"
+            style={{
+              fontSize: "2.7rem",
+              color: darkMode ? "#ffffff" : "#5b4b8a",
+              letterSpacing: "1px",
+            }}
           >
-            {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
-          </button>
-          <h2 className="text-center mb-4">Habitra Dashboard</h2>
+            Habitra
+          </h2>
 
-          <h4 className="text-center mb-2">Productivity Score: {score}%</h4>
+          <h4
+            className="text-center mb-2"
+            style={{
+              color: darkMode ? "#d6cfff" : "#6c63ff",
+              fontWeight: "600",
+            }}
+          >
+            Productivity Score: {score}%
+          </h4>
 
-          <h5 className="text-center mb-3">🔥 Streak: {streak}</h5>
+          <h5
+            className="text-center mb-4"
+            style={{
+              color: darkMode ? "#ffcf91" : "#ff8c42",
+              fontWeight: "600",
+            }}
+          >
+            🔥 Streak: {streak}
+          </h5>
 
-          <div className="progress mb-3">
+          <div
+            className="progress mb-4"
+            style={{
+              height: "16px",
+              borderRadius: "20px",
+              backgroundColor: darkMode ? "#3a3155" : "#ebe7ff",
+            }}
+          >
             <div
               className="progress-bar"
               role="progressbar"
-              style={{ width: `${score}%` }}
+              style={{
+                width: `${score}%`,
+                background: "linear-gradient(to right, #a18cd1, #fbc2eb)",
+                borderRadius: "20px",
+                transition: "width 0.4s ease",
+              }}
             >
               {score}%
             </div>
           </div>
 
-          <div className="d-flex gap-2 mb-3">
+          <div className="d-flex gap-3 mb-4">
             <input
+              style={{
+                borderRadius: "16px",
+
+                border: darkMode ? "1px solid #4d3f73" : "1px solid #ddd6ff",
+
+                padding: "14px",
+
+                background: darkMode ? "#241d38" : "#fcfbff",
+
+                color: darkMode ? "#fff" : "#333",
+
+                boxShadow: "0 3px 10px rgba(0,0,0,0.04)",
+              }}
               type="text"
               className="form-control"
               placeholder="Enter a habit"
@@ -190,16 +271,53 @@ function Dashboard() {
               onChange={(e) => setHabit(e.target.value)}
             />
 
-            <button className="btn btn-primary" onClick={addHabit}>
+            <button
+              style={{
+                background: "linear-gradient(to right, #a18cd1, #fbc2eb)",
+
+                border: "none",
+
+                borderRadius: "16px",
+
+                padding: "0 24px",
+
+                color: "#fff",
+
+                fontWeight: "600",
+
+                boxShadow: "0 4px 12px rgba(161,140,209,0.3)",
+              }}
+              onClick={addHabit}
+            >
               Add
             </button>
           </div>
 
-          <ul className="list-group">
+          <ul
+            className="list-group border-0"
+            style={{
+              gap: "14px",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             {habits.map((h, index) => (
               <li
                 key={index}
-                className="list-group-item d-flex justify-content-between align-items-center"
+                className="d-flex justify-content-between align-items-center"
+                style={{
+                  background: darkMode ? "#2d2645" : "#f8f4ff",
+
+                  borderRadius: "18px",
+
+                  padding: "18px 20px",
+
+                  border: darkMode ? "1px solid #45376a" : "1px solid #ece3ff",
+
+                  transition: "0.3s ease",
+
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+                }}
               >
                 <div className="d-flex align-items-center gap-2">
                   <input
@@ -218,7 +336,21 @@ function Dashboard() {
                 </div>
 
                 <button
-                  className="btn btn-danger btn-sm"
+                  style={{
+                    background: "#ff8fab",
+
+                    border: "none",
+
+                    borderRadius: "12px",
+
+                    padding: "8px 16px",
+
+                    color: "white",
+
+                    fontWeight: "600",
+
+                    boxShadow: "0 3px 10px rgba(255,143,171,0.3)",
+                  }}
                   onClick={() => deleteHabit(index)}
                 >
                   Delete
