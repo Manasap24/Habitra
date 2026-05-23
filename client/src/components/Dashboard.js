@@ -9,9 +9,65 @@ function Dashboard() {
   const [lastUpdated, setLastUpdated] = useState(null);
   const isFirstRender = useRef(true);
   const [darkMode, setDarkMode] = useState(false);
-  const [suggestion, setSuggestion] = useState("");
+  const [aiSuggestion, setAiSuggestion] = useState("");
+ 
 
 
+
+
+
+ const sendData = async () => {
+   const response = await fetch("http://localhost:5000/test", {
+     method: "POST",
+
+     headers: {
+       "Content-Type": "application/json",
+     },
+
+     body: JSON.stringify({
+       name: "Mansaa",
+       habit: "Reading",
+     }),
+   });
+
+   const data = await response.json();
+
+   console.log(data);
+ }; 
+
+
+ const getAISuggestion = async () => {
+   try {
+     const completedHabits = habits
+       .filter((h) => h.completed)
+       .map((h) => h.text);
+
+     const pendingHabits = habits
+       .filter((h) => !h.completed)
+       .map((h) => h.text);
+
+     const response = await fetch("http://localhost:5000/api/ai", {
+       method: "POST",
+
+       headers: {
+         "Content-Type": "application/json",
+       },
+
+       body: JSON.stringify({
+         completedHabits,
+         pendingHabits,
+       }),
+     });
+
+     const data = await response.json();
+
+     setAiSuggestion(data.suggestion);
+   } catch (error) {
+     console.error(error);
+
+     setAiSuggestion("Error getting AI suggestion");
+   }
+ };
 
  useEffect(() => {
    if (habits.length === 0) return;
@@ -98,6 +154,11 @@ function Dashboard() {
             color: darkMode ? "#ffffff" : "#000000",
           }}
         >
+          <button onClick={getAISuggestion}>Get AI Suggestion 🤖</button>
+          {aiSuggestion && (
+            <div className="alert alert-info text-center">{aiSuggestion}</div>
+          )}
+
           <button
             className="btn btn-secondary mb-3"
             onClick={() => setDarkMode(!darkMode)}
